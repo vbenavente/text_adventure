@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(app) {
   app.controller('GameController', GameController);
 };
@@ -27,7 +29,7 @@ function GameController() {
       }
     }
   };
-  this.startGame = function() {
+  GameController.prototype.startGame = function() {
     this.model.gamelog = [];
     this.model.userLocation = 'start';
     this.model.userHasWeapon = false;
@@ -36,7 +38,7 @@ function GameController() {
       src: 'game',
       msg: this.model.location.start.prompt
     });
-    this.model.location.start.commands.forEach(function(choice) {
+    this.model.location.start.commands.forEach((choice) => {
       this.model.gamelog.push({
         src: 'command',
         msg: choice
@@ -44,7 +46,7 @@ function GameController() {
     });
     this.model.userLocation = 'monsterroomwithoutweapon';
   };
-  this.processInput = function() {
+  GameController.prototype.processInput = function() {
     this.model.gamelog.push({
       src: 'user',
       msg: this.model.command
@@ -99,17 +101,17 @@ function GameController() {
     }
     this.model.command = '';
   };
-  this.currentHelpMsg = function() {
+  GameController.prototype.currentHelpMsg = function() {
     var str = '';
     switch(this.model.userLocation) {
     case 'weaponroom':
-      this.model.location.weaponroom.commands.forEach(function(choice, index) {
+      this.model.location.weaponroom.commands.forEach((choice, index) => {
         str += index > 0 ? ' | ' : '';
         str += choice;
       });
       break;
     case 'monsterroomwithoutweapon':
-      this.model.location.monsterroomwithoutweapon.commands.forEach(function(choice, index) {
+      this.model.location.monsterroomwithoutweapon.commands.forEach((choice, index) => {
         str += index > 0 ? ' | ' : '';
         str += choice;
       });

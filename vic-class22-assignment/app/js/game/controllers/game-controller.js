@@ -90,7 +90,7 @@ function GameController() {
       if(sayArr[0] === 'say') {
         this.model.gamelog.push({
           src:'game',
-          msg: sayArr[1] || 'SPEAK!'
+          msg: sayArr.split(1, sayArr.length).join(' ') || 'SPEAK!'
         });
       } else {
         this.model.gamelog.push({

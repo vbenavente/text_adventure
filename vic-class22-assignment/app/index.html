@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="./app.css" rel="stylesheet" type="text/css">
+  <title>Text Adventure Game</title>
+</head>
+<body data-ng-app="adventureApp">
+  <main data-ng-controller="GameController as settings" data-ng-init="settings.startGame()">
+    <h1>Adventure Game:</h1>
+    <form name="userInputForm" data-ng-submit="settings.processInput()">
+      <label for="command">Command:
+        <input type="text" required data-ng-model="settings.model.command"/>
+      </label>
+      <button type="submit">Continue</button>
+    </form>
+    <ul id="inputlog">
+      <li data-ng-repeat="choice in settings.model.gamelog">
+        <span class="{{choice.src}}-input">{{choice.msg}}</span>
+      </li>
+    </ul>
+  </main>
+  <script src="bundle.js"></script>
+</body>
+</html>

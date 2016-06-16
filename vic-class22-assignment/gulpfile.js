@@ -38,6 +38,16 @@ gulp.task('staticcssfiles:dev', () => {
   .pipe(gulp.dest('./build'));
 });
 
+gulp.task('bundle:test', () => {
+  return gulp.src(__dirname + '/test/*_test.js')
+  .pipe(webpack({
+    output: {
+      filename: 'test_bundle.js'
+    }
+  }))
+  .pipe(gulp.dest(__dirname + '/test'));
+});
+
 gulp.task('build:dev', ['staticfiles:dev', 'staticcssfiles:dev', 'webpack:dev']);
 
 gulp.task('watch', () => {

@@ -19,4 +19,9 @@ describe('Controller Tests', () => {
     console.log(firstctrl);
     expect(Array.isArray(firstctrl.model.gamelog)).toBe(true);
   });
+
+  it('should start the game', () => {
+    firstctrl.startGame();
+    expect(firstctrl.model.userLocation).toBe('start');
+  });
 });

@@ -12,8 +12,8 @@ function GameController() {
     gamelog: [],
     location: {
       'start': {
-        commands: ['Enter ? for available commands at any time', 'enter door on left', 'enter door on right'],
-        prompt: 'Welcome to your Quest. You must acquire a weapon to defeat the a monster in order to leave this building.'
+        commands: ['Enter ? for available commands at any time', 'enter door 1', 'enter door 2', 'enter door 3', 'enter door 4', 'go upstairs'],
+        prompt: 'Welcome to your Quest. This building has 8 rooms, 1 weapons room, 4 rooms with monsters, 2 safe rooms, and a treasury. You can exit through any of the four monster rooms after defeating the monster. Acquire weapons to defeat a monster and safely escape. You are currently in the hallway.'
       },
       'weaponroom': {
         commands: ['take the dick\'s burger', 'take the beard oil', 'take the soccerball', 'take the iced tea', 'say <message>', 'walk through door'],
@@ -32,7 +32,10 @@ function GameController() {
   GameController.prototype.startGame = function() {
     this.model.gamelog = [];
     this.model.userLocation = 'start';
-    this.model.userHasWeapon = false;
+    this.model.userHasBurgerWeapon = false;
+    this.model.userHasBeardWeapon = false;
+    this.model.userHasSoccerWeapon = false;
+    this.model.userHasTeaWeapon = false;
     this.model.command = '';
     this.model.gamelog.push({
       src: 'game',
@@ -59,30 +62,44 @@ function GameController() {
         msg: this.currentHelpMsg()
       });
       break;
-    case 'enter door on left':
-      var currentLocation = this.model.userLocation;
-      if(currentLocation === 'weaponroom') {
-        currentLocation = this.model.userLocation = this.model.userHasWeapon ? 'monsterroomwithweapon' : 'monsterroomwithoutweapon';
-        this.model.gamelog.push({
-          src: 'game',
-          msg: this.model.location[currentLocation].prompt
-        });
-      } else {
-        this.model.userLocation = 'weaponroom';
-        this.model.gamelog.push({
-          src: 'game',
-          msg: this.model.location.weaponroom.prompt
-        });
-      }
-
+    case 'enter door 1':
+      // var currentLocation = this.model.userLocation;
+      // if(currentLocation === 'weaponroom') {
+      //   currentLocation = this.model.userLocation = this.model.userHasWeapon ? 'monsterroomwithweapon' : 'monsterroomwithoutweapon';
+      //   this.model.gamelog.push({
+      //     src: 'game',
+      //     msg: this.model.location[currentLocation].prompt
+      //   });
+      // } else {
+      this.model.userLocation = 'weaponroom';
       this.model.gamelog.push({
         src: 'game',
-        msg: this.currentHelpMsg()
+        msg: this.model.location.weaponroom.prompt
       });
+      // }
+
+      // this.model.gamelog.push({
+      //   src: 'command',
+      //   msg: this.currentHelpMsg()
+      // });
       break;
     case 'take the dick\'s burger':
-      this.model.userHasWeapon = true;
+      this.model.userHasBurgerWeapon = true;
+      this.acquiredWeapon();
       break;
+    case 'take the beard oil':
+      this.model.userHasBeardWeapon = true;
+      this.acquiredWeapon();
+      break;
+    case 'take the soccerball':
+      this.model.userHasSoccerWeapon = true;
+      this.acquiredWeapon();
+      break;
+    case 'take the iced tea':
+      this.model.userHasTeaWeapon = true;
+      this.acquiredWeapon();
+      break;
+
 
     default:
 
@@ -101,6 +118,14 @@ function GameController() {
     }
     this.model.command = '';
   };
+
+  GameController.prototype.acquiredWeapon = function() {
+    this.model.gamelog.push({
+      src: 'game',
+      msg: 'You have acquired a weapon!'
+    });
+  };
+
   GameController.prototype.currentHelpMsg = function() {
     var str = '';
     switch(this.model.userLocation) {

@@ -12,7 +12,7 @@ function GameController() {
     gamelog: [],
     location: {
       'start': {
-        commands: ['Enter ? for available commands at any time'],
+        commands: ['Enter ? for available commands at any time', 'enter door on left', 'enter door on right'],
         prompt: 'Welcome to your Quest. You must acquire a weapon to defeat the a monster in order to leave this building.'
       },
       'weaponroom': {
@@ -44,7 +44,7 @@ function GameController() {
         msg: choice
       });
     });
-    this.model.userLocation = 'monsterroomwithoutweapon';
+    this.model.userLocation = 'start';
   };
   GameController.prototype.processInput = function() {
     this.model.gamelog.push({
@@ -55,11 +55,11 @@ function GameController() {
     switch (this.model.command) {
     case '?':
       this.model.gamelog.push({
-        src: 'game',
+        src: 'command',
         msg: this.currentHelpMsg()
       });
       break;
-    case 'walk through door':
+    case 'enter door on left':
       var currentLocation = this.model.userLocation;
       if(currentLocation === 'weaponroom') {
         currentLocation = this.model.userLocation = this.model.userHasWeapon ? 'monsterroomwithweapon' : 'monsterroomwithoutweapon';
@@ -104,6 +104,12 @@ function GameController() {
   GameController.prototype.currentHelpMsg = function() {
     var str = '';
     switch(this.model.userLocation) {
+    case 'start':
+      this.model.location.start.commands.forEach((choice, index) => {
+        str += index > 0 ? ' | ' : '';
+        str += choice;
+      });
+      break;
     case 'weaponroom':
       this.model.location.weaponroom.commands.forEach((choice, index) => {
         str += index > 0 ? ' | ' : '';

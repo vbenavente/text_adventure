@@ -2,6 +2,7 @@
 **/vendor/*
 **/build/*
 **/*.min.js
+*_bundle.js
 *.md
 package.json
 Procfile

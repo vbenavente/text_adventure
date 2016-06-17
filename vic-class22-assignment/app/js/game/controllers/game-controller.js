@@ -41,13 +41,10 @@ function GameController() {
       src: 'game',
       msg: this.model.location.start.prompt
     });
-    this.model.location.start.commands.forEach((choice) => {
-      this.model.gamelog.push({
-        src: 'command',
-        msg: choice
-      });
+    this.model.gamelog.push({
+      src: 'command',
+      msg: this.currentHelpMsg()
     });
-    this.model.userLocation = 'start';
   };
   GameController.prototype.processInput = function() {
     this.model.gamelog.push({
